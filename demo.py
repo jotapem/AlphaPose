@@ -36,6 +36,8 @@ if __name__ == "__main__":
     if len(inputlist):
         im_names = open(inputlist, 'r').readlines()
     elif len(inputpath) and inputpath != '/':
+        if not os.path.isdir(inputpath):
+            raise IOError("Input directory %s does not exist" % (inputpath,))
         for root, dirs, files in os.walk(inputpath):
             im_names = files
     else:

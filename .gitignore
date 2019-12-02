@@ -27,3 +27,11 @@ images
 *.weights
 
 coco-minival/
+
+# text editors
+settings.json
+.vscode/
+
+# loose output
+alphapose-results.json
+*.jpg

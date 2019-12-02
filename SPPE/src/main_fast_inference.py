@@ -53,10 +53,10 @@ class InferenNet(nn.Module):
 
 
 class InferenNet_fast(nn.Module):
-    def __init__(self, kernel_size, dataset):
+    def __init__(self, kernel_size, dataset, use_gpu=True):
         super(InferenNet_fast, self).__init__()
 
-        model = createModel().cuda()
+        model = createModel().cuda() if use_gpu else createModel().cpu()
         print('Loading pose model from {}'.format('./models/sppe/duc_se.pth'))
         model.load_state_dict(torch.load('./models/sppe/duc_se.pth'))
         model.eval()

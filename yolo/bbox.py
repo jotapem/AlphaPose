@@ -65,8 +65,13 @@ def bbox_iou(box1, box2):
     inter_rect_y2 =  torch.min(b1_y2, b2_y2)
     
     #Intersection area
+
+    ''' using device placement of input boxes to infer whether GPU is available '''
+    assert box1.is_cuda == box2.is_cuda
+    def device_placement(x):
+        return x.cuda() if box1.is_cuda else x.cpu()
     
-    inter_area = torch.max(inter_rect_x2 - inter_rect_x1 + 1,torch.zeros(inter_rect_x2.shape).cuda())*torch.max(inter_rect_y2 - inter_rect_y1 + 1, torch.zeros(inter_rect_x2.shape).cuda())
+    inter_area = torch.max(inter_rect_x2 - inter_rect_x1 + 1,device_placement(torch.zeros(inter_rect_x2.shape)))*torch.max(inter_rect_y2 - inter_rect_y1 + 1, device_placement(torch.zeros(inter_rect_x2.shape)))
     
     #Union Area
     b1_area = (b1_x2 - b1_x1 + 1)*(b1_y2 - b1_y1 + 1)

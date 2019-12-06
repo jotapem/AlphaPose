@@ -1,14 +1,13 @@
 import torch.nn as nn
 from torch.autograd import Variable
 
+from libs.AlphaPose.opt import opt
+
 from .layers.SE_Resnet import SEResnet
 from .layers.DUC import DUC
-from opt import opt
-
 
 def createModel():
     return FastPose()
-
 
 class FastPose(nn.Module):
     DIM = 128

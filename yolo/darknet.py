@@ -6,15 +6,10 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 import numpy as np
 import cv2 
-import matplotlib.pyplot as plt
-try:
-    from util import count_parameters as count
-    from util import convert2cpu as cpu
-    from util import predict_transform
-except ImportError:
-    from yolo.util import count_parameters as count
-    from yolo.util import convert2cpu as cpu
-    from yolo.util import predict_transform
+
+from libs.AlphaPose.yolo.util import count_parameters as count
+from libs.AlphaPose.yolo.util import convert2cpu as cpu
+from libs.AlphaPose.yolo.util import predict_transform
 
 class test_net(nn.Module):
     def __init__(self, num_layers, input_size):

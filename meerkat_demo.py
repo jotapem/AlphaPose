@@ -23,7 +23,7 @@ from yolo.util import dynamic_write_results
 
 from dataloader import crop_from_dets
 from dataloader import Mscoco
-from SPPE.src.main_fast_inference import InferenNet, InferenNet_fast
+from SPPE.src.main_fast_inference import InferenNet_fast
 from SPPE.src.utils.eval import getMultiPeakPrediction, getPrediction
 from matching import candidate_reselect as matching
 
@@ -74,7 +74,8 @@ def main():
     if args['fast_inference']:
         pose_model = InferenNet_fast(4 * 1 + 1, pose_dataset)
     else:
-        pose_model = InferenNet(4 * 1 + 1, pose_dataset)
+        raise NotImplementedError("Adapted code for InferenNet_fast only")
+        #pose_model = InferenNet(4 * 1 + 1, pose_dataset)
     pose_model.cuda()
     pose_model.eval()
 

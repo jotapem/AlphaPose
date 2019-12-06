@@ -4,9 +4,10 @@ import torch.utils.data
 import torch.utils.data.distributed
 import torch.nn.functional as F
 import numpy as np
-from SPPE.src.utils.img import flip, shuffleLR
-from SPPE.src.utils.eval import getPrediction
-from SPPE.src.models.FastPose import createModel
+
+from libs.AlphaPose.opt import opt
+from libs.AlphaPose.SPPE.src.utils.img import flip, shuffleLR
+from libs.AlphaPose.SPPE.src.models.FastPose import createModel
 
 import visdom
 import time
@@ -23,42 +24,13 @@ except AttributeError:
         return tensor
     torch._utils._rebuild_tensor_v2 = _rebuild_tensor_v2
 
-
-class InferenNet(nn.Module):
-    def __init__(self, kernel_size, dataset):
-        super(InferenNet, self).__init__()
-
-        model = createModel().cuda()
-        print('Loading pose model from {}'.format('./models/sppe/duc_se.pth'))
-        sys.stdout.flush()
-        model.load_state_dict(torch.load('./models/sppe/duc_se.pth'))
-        model.eval()
-        self.pyranet = model
-
-        self.dataset = dataset
-
-    def forward(self, x):
-        out = self.pyranet(x)
-        out = out.narrow(1, 0, 17)
-
-        flip_out = self.pyranet(flip(x))
-        flip_out = flip_out.narrow(1, 0, 17)
-
-        flip_out = flip(shuffleLR(
-            flip_out, self.dataset))
-
-        out = (flip_out + out) / 2
-
-        return out
-
-
 class InferenNet_fast(nn.Module):
     def __init__(self, kernel_size, dataset, use_gpu=True):
         super(InferenNet_fast, self).__init__()
 
         model = createModel().cuda() if use_gpu else createModel().cpu()
-        print('Loading pose model from {}'.format('./models/sppe/duc_se.pth'))
-        model.load_state_dict(torch.load('./models/sppe/duc_se.pth'))
+        device = torch.device('cuda' if use_gpu else 'cpu')
+        model.load_state_dict(torch.load('data/checkpoints/pose/sppe/duc_se.pth', map_location=device))
         model.eval()
         self.pyranet = model
 

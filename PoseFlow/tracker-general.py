@@ -19,7 +19,6 @@ import copy
 import heapq
 from munkres import Munkres, print_matrix
 from PIL import Image
-import matplotlib.pyplot as plt
 from tqdm import tqdm
 from utils import *
 from matching import orb_matching

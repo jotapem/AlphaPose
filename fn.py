@@ -4,10 +4,8 @@ import os
 import collections
 from torch._six import string_classes, int_classes
 import cv2
-from opt import opt
 from tqdm import tqdm
 import time
-import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import math

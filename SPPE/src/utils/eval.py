@@ -1,8 +1,8 @@
-from opt import opt
+from libs.AlphaPose.opt import opt
 try:
     from utils.img import transformBoxInvert, transformBoxInvert_batch, findPeak, processPeaks
 except ImportError:
-    from SPPE.src.utils.img import transformBoxInvert, transformBoxInvert_batch, findPeak, processPeaks
+    from libs.AlphaPose.SPPE.src.utils.img import transformBoxInvert, transformBoxInvert_batch, findPeak, processPeaks
 import torch
 
 

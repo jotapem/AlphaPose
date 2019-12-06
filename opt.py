@@ -143,6 +143,6 @@ parser.add_argument('--save_video', dest='save_video',
                     help='whether to save rendered video', default=False, action='store_true')
 parser.add_argument('--vis_fast', dest='vis_fast',
                     help='use fast rendering', action='store_true', default=False)
-opt = parser.parse_args()
+opt = parser.parse_args([])
 
 opt.num_classes = 80

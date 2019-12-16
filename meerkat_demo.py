@@ -120,8 +120,9 @@ def main():
 
             #print(dets[:,0]) # that's the batch index
             
+            dets_img = orig_img.copy()
             for box in boxes:
-                orig_img = cv2.rectangle(orig_img, tuple(box[:2]), tuple(box[2:]), (255, 255, 255))
+                dets_img = cv2.rectangle(dets_img, tuple(box[:2]), tuple(box[2:]), (255, 255, 255))
             
             cv2.imwrite('frame_%d.jpg'%frame_idx, orig_img)
 

@@ -27,6 +27,8 @@ from SPPE.src.main_fast_inference import InferenNet_fast
 from SPPE.src.utils.eval import getMultiPeakPrediction, getPrediction
 from matching import candidate_reselect as matching
 
+from fn import vis_frame_fast
+
 import cv2
 
 from opt import opt
@@ -119,10 +121,13 @@ def main():
 
             #print(dets[:,0]) # that's the batch index
             
+            cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_input.jpg'%frame_idx), orig_img)
+
+            dets_img = orig_img.copy()
             for box in boxes:
-                orig_img = cv2.rectangle(orig_img, tuple(box[:2]), tuple(box[2:]), (255, 255, 255))
+                dets_img = cv2.rectangle(dets_img, tuple(box[:2]), tuple(box[2:]), (255, 255, 255))
             
-            cv2.imwrite('frame_%d.jpg'%frame_idx, orig_img)
+            cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_dets.jpg'%frame_idx), dets_img)
 
             if isinstance(boxes, int) or boxes.shape[0] == 0:
                 continue
@@ -166,6 +171,10 @@ def main():
                     boxes, scores, preds_img, preds_scores)
 
             print(len(result))
+
+            frame_with_joints = vis_frame_fast(orig_img, {'imgname': "%d" % frame_idx, 'result': result})
+
+            cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_joints.jpg'%frame_idx), frame_with_joints)
 
             # TODO: find key points and see if they match `video_demo.py` JSON output (apparently they do not, check how JSON is written)
             for r in result:

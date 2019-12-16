@@ -27,6 +27,8 @@ from SPPE.src.main_fast_inference import InferenNet, InferenNet_fast
 from SPPE.src.utils.eval import getMultiPeakPrediction, getPrediction
 from matching import candidate_reselect as matching
 
+from fn import vis_frame_fast
+
 import cv2
 
 from opt import opt
@@ -165,6 +167,8 @@ def main():
                     boxes, scores, preds_img, preds_scores)
 
             print(len(result))
+
+            frame_with_joints = vis_frame_fast(orig_img, {'imgname': "%d" % frame_idx, 'result': result})
 
             # TODO: find key points and see if they match `video_demo.py` JSON output (apparently they do not, check how JSON is written)
             for r in result:

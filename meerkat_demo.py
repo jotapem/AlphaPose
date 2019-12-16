@@ -120,11 +120,13 @@ def main():
 
             #print(dets[:,0]) # that's the batch index
             
+            cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_input.jpg'%frame_idx), orig_img)
+
             dets_img = orig_img.copy()
             for box in boxes:
                 dets_img = cv2.rectangle(dets_img, tuple(box[:2]), tuple(box[2:]), (255, 255, 255))
             
-            cv2.imwrite('frame_%d.jpg'%frame_idx, orig_img)
+            cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_dets.jpg'%frame_idx), dets_img)
 
             if isinstance(boxes, int) or boxes.shape[0] == 0:
                 continue
@@ -170,6 +172,8 @@ def main():
             print(len(result))
 
             frame_with_joints = vis_frame_fast(orig_img, {'imgname': "%d" % frame_idx, 'result': result})
+
+            cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_joints.jpg'%frame_idx), frame_with_joints)
 
             # TODO: find key points and see if they match `video_demo.py` JSON output (apparently they do not, check how JSON is written)
             for r in result:

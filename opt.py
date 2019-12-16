@@ -133,6 +133,8 @@ parser.add_argument('--detbatch', type=int, default=1,
                     help='detection batch size')
 parser.add_argument('--posebatch', type=int, default=80,
                     help='pose estimation maximum batch size')
+parser.add_argument('--num_classes', type=int, default=80,
+                    help='number of classes of object detector (default is 80 as default detector is pretrained on COCO)')
 
 "----------------------------- Video options -----------------------------"
 parser.add_argument('--video', dest='video',
@@ -144,5 +146,3 @@ parser.add_argument('--save_video', dest='save_video',
 parser.add_argument('--vis_fast', dest='vis_fast',
                     help='use fast rendering', action='store_true', default=False)
 opt = parser.parse_args([])
-
-opt.num_classes = 80

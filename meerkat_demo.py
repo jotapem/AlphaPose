@@ -14,7 +14,7 @@ import torch.nn as nn
 import torch.utils.data
 import numpy as np
 
-from pPose_nms import pose_nms, write_json
+from pPose_nms import pose_nms
 from SPPE.src.utils.img import im_to_torch
 
 from yolo.darknet import Darknet
@@ -31,15 +31,16 @@ from fn import vis_frame_fast
 
 import cv2
 
-from opt import opt
+import opt
 
 def main():
     ''' arg parsing '''
-    args = vars(opt)
+    args = vars(opt.parser.parse_args())
     print(args)
 
-    if not os.path.exists(args['outputpath']):
-        os.mkdir(args['outputpath'])
+    output_path = args['outputpath']
+    if not os.path.exists(output_path):
+        os.mkdir(output_path)
     
     videofile = args['video']
     if not len(videofile):
@@ -64,8 +65,8 @@ def main():
     # print("Read %d frames in total" % (read_frames,))
 
     ''' load detection model '''
-    det_model = Darknet("yolo/cfg/yolov3-spp.cfg")
-    det_model.load_weights("models/yolo/yolov3-spp.weights")
+    det_model = Darknet("data/checkpoints/pose/yolo/yolov3-spp.cfg")
+    det_model.load_weights("data/checkpoints/pose/yolo/yolov3-spp.weights")
     det_model.net_info['height'] = inp_dim
     det_model.cuda()
     det_model.eval()
@@ -132,7 +133,7 @@ def main():
             if isinstance(boxes, int) or boxes.shape[0] == 0:
                 continue
 
-            inps = torch.zeros(boxes.size(0), 3, opt.inputResH, opt.inputResW)
+            inps = torch.zeros(boxes.size(0), 3, args['inputResH'], args['inputResW'])
             pt1 = torch.zeros(boxes.size(0), 2)
             pt2 = torch.zeros(boxes.size(0), 2)
 

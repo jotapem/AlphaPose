@@ -177,7 +177,7 @@ def main():
             total_time = tf-t0
             print("[%d] Computed %d results in %f seconds (%f FPS)" % (frame_idx, len(result), total_time, (1/float(total_time))))
 
-            frame_with_joints = vis_frame_fast(orig_img, {'imgname': "%d" % frame_idx, 'result': result})
+            frame_with_joints = vis_frame_fast(orig_img, {'imgname': "%d" % frame_idx, 'result': result}, format='coco')
 
             cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_joints.jpg'%frame_idx), frame_with_joints)
 

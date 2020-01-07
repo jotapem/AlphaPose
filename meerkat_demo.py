@@ -94,6 +94,8 @@ def main():
         dims = torch.FloatTensor([dims]).repeat(1, 2)
 
         with torch.no_grad():
+            t0 = time.time()
+
             ''' human detection '''
             img = img.cuda()
             prediction = det_model(img, CUDA=True)
@@ -171,7 +173,9 @@ def main():
                 result = pose_nms(
                     boxes, scores, preds_img, preds_scores)
 
-            print(len(result))
+            tf = time.time()
+            total_time = tf-t0
+            print("[%d] Computed %d results in %f seconds (%f FPS)" % (frame_idx, len(result), total_time, (1/float(total_time))))
 
             frame_with_joints = vis_frame_fast(orig_img, {'imgname': "%d" % frame_idx, 'result': result})
 

@@ -181,14 +181,8 @@ def main():
 
             cv2.imwrite(os.path.join(args['outputpath'], 'frame_%d_joints.jpg'%frame_idx), frame_with_joints)
 
-            # TODO: find key points and see if they match `video_demo.py` JSON output (apparently they do not, check how JSON is written)
-            for r in result:
-                print(frame_idx, r['keypoints'])
                 
         frame_idx += 1
-
-
-        #exit(-1)
 
 
 main() if __name__ == '__main__' else True
